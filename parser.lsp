@@ -91,15 +91,18 @@
 (defun map-lexeme (lexeme)
 (format t "Symbol: ~S ~%" lexeme)
    (list (cond
-         ((string=   lexeme "program")  'PROGRAM )
-         ((string=   lexeme "var"    )  'VAR     )
+         ((string=   lexeme "program")  'PROGRAM)
+         ((string=   lexeme "var")      'VAR)
+         ((string=   lexeme "input")    'input)
+         ((string=   lexeme "output")   'output)
+         ((string=   lexeme "begin")    'begin)
+         ((string=   lexeme "end")      'end)
+         
 
-;; etc,  *** TO BE DONE ***
-
-         ((string=   lexeme ""       )	'EOF     )
-         ((is-id     lexeme          )  'ID      )
-         ((is-number lexeme          )  'NUM     )
-         (t                             'UNKNOWN )
+         ((string=   lexeme "")         'EOF)
+         ((is-id     lexeme)            'ID)
+         ((is-number lexeme)            'NUM)
+         (t                             'UNKNOWN)
          )
     lexeme)
 )
