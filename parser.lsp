@@ -93,13 +93,23 @@
    (list (cond
          ((string=   lexeme "program")  'PROGRAM)
          ((string=   lexeme "var")      'VAR)
-         ((string=   lexeme "input")    'input)
-         ((string=   lexeme "output")   'output)
-         ((string=   lexeme "begin")    'begin)
-         ((string=   lexeme "end")      'end)
-         
-
-         ((string=   lexeme "")         'EOF)
+         ((string=   lexeme "input")    'INPUT)
+         ((string=   lexeme "output")   'OUTPUT)
+         ((string=   lexeme "begin")    'BEGIN)
+         ((string=   lexeme "end")      'END)
+         ((string=   lexeme "boolean")  'BOOLEAN)
+         ((string=   lexeme "integer")  'INTEGER)
+         ((string=   lexeme "real")     'REAL)
+         ((string=   lexeme ":=")       'ASSIGN)
+         ((string=   lexeme "(")        'VP) ;Vänster  
+         ((string=   lexeme ")")        'HP) ;Höger
+         ((string=   lexeme "*")        'MULT) 
+         ((string=   lexeme "+")        'ADDI)
+         ((string=   lexeme ",")        'COMMA)
+         ((string=   lexeme ".")        'PUNKT) 
+         ((string=   lexeme ":")        'COLON)
+         ((string=   lexeme ";")        'SCOLON)
+         ((string=   lexeme "")        'EOF)
          ((is-id     lexeme)            'ID)
          ((is-number lexeme)            'NUM)
          (t                             'UNKNOWN)
