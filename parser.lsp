@@ -122,14 +122,23 @@
 ;;=====================================================================
 
 (defun is-id (str)
-;; *** TO BE DONE ***
-)
+  (let ((len (length str)))
+    (cond
+      ((zerop len)
+       nil)
+      ((= len 1)
+       (alpha-char-p (elt str 0)))
+      (t
+       (and (is-id (subseq str 0 (1- len)))
+            (alphanumericp (elt str (1- len))))))))
+
 
 (defun is-number (str)
-;; *** TO BE DONE ***
-)
+  (and
+    (> (length str) 0)
+    (every #'digit-char-p str)))
 
-;;=====================================================================
+;=====================================================================
 ; THIS IS THE PARSER PART
 ;;=====================================================================
 
@@ -175,9 +184,11 @@
 ; lexeme - returns the lexeme from (token lexeme)(reader)
 ;;=====================================================================
 
-(defun token  (state) ;; *** TO BE DONE ***
+(defun token  (state)
+  (first (pstate-lookahead state))
 )
-(defun lexeme (state) ;; *** TO BE DONE ***
+(defun lexeme (state)
+  (second (pstate-lookahead state))
 )
 
 ;;=====================================================================
