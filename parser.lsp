@@ -196,11 +196,14 @@
 ;;=====================================================================
 
 (defun symtab-add (state id)
-;; *** TO BE DONE ***
+  (if (symtab-member state id)
+    (semerr1 state)
+    (push id (pstate-symtab state))
+  )
 )
 
 (defun symtab-member (state id)
-;; *** TO BE DONE ***
+  (member id (pstate-symtab state) :test #'string=)
 )
 
 (defun symtab-display (state)
