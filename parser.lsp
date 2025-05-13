@@ -109,7 +109,7 @@
          ((string=   lexeme ".")        'PUNKT) 
          ((string=   lexeme ":")        'COLON)
          ((string=   lexeme ";")        'SCOLON)
-         ((string=   lexeme "")        'EOF)
+         ((string=   lexeme "")         'EOF)
          ((is-id     lexeme)            'ID)
          ((is-number lexeme)            'NUM)
          (t                             'UNKNOWN)
@@ -289,6 +289,50 @@
 ;;=====================================================================
 
 ;; *** TO BE DONE ***
+
+;;=====================================================================
+(defun stat-list-aux (state)
+
+    )
+;;=====================================================================
+
+(defun stat-part (state)
+    (match state 'BEGIN)
+    (stat-list state)
+    (match state 'END)
+    (match state 'PUNKT)
+    )
+
+;;(defun stat-list (state)
+  ;;  (stat state)
+    ;;(if(eq(token state)  'SCOLON)
+
+      ;;  )
+    ;;)
+
+(defun stat (state)
+    (assign-stat state)
+    )
+
+(defun assign-stat (state)
+    (match)
+    )
+
+(defun expr (state)
+
+    )
+
+(defun term (state)
+
+    )
+
+(defun factor (state)
+
+    )
+
+(defun operand (state)
+
+    )
 
 ;;=====================================================================
 ; <var-part>     --> var <var-dec-list>
