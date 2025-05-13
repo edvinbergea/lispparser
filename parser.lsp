@@ -443,7 +443,16 @@
 ; <program-header>
 ;;=====================================================================
 
-;; *** TO BE DONE ***
+(defun program-header (state)
+    (match state 'PROGRAM)
+    (match state 'ID)
+    (match state 'VP)
+    (match state 'INPUT)
+    (match state 'COMMA)
+    (match state 'OUTPUT)
+    (match state 'HP)
+    (match state 'SCOLON)
+)
 
 ;;=====================================================================
 ; <program> --> <program-header><var-part><stat-part>
