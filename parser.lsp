@@ -323,7 +323,13 @@
 ;;=====================================================================
 
 (defun check-end (state)
-;; *** TO BE DONE ***
+  (if (eq (token state) 'EOF)
+    t
+    (progn 
+      (semerr3 state) 
+      nil
+    )
+  )
 )
 
 ;;=====================================================================
@@ -353,10 +359,17 @@
 ; THE PARSER - parse all the test files
 ;;=====================================================================
 
+(defun parse-all-helper (files)
+ (when files
+    (namestring (first files)) 
+    (parse-all-helper (rest files))
+  ) 
+)
+
 (defun parse-all ()
-
-;; *** TO BE DONE ***
-
+  (let ((files (directory #P"testfiles/*.pas")))
+    (parse-all-helper files)
+  )
 )
 
 ;;=====================================================================
