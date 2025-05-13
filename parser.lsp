@@ -405,7 +405,7 @@
 
 (defun parse-all-helper (files)
  (when files
-    (namestring (first files)) 
+    (parse (namestring (first files))) 
     (parse-all-helper (rest files))
   ) 
 )
