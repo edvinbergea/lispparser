@@ -194,11 +194,11 @@
 ;;=====================================================================
 ; symbol table manipulation: add + lookup + display
 ;;=====================================================================
-
 (defun symtab-add (state id)
   (if (symtab-member state id)
-    (semerr1 state)
-    (push id (pstate-symtab state))
+      (semerr1 state)
+      (setf (pstate-symtab state)
+            (append (pstate-symtab state) (list id)))
   )
 )
 
@@ -355,7 +355,7 @@
         (unless (symtab-member state (lexeme state))
           (semerr2 state)) 
         (match state 'ID)) 
-      (synerr3 state)) 
+      (synerr1 state 'ID)) 
   (match state 'ASSIGN)
   (expr state)
 )
@@ -411,7 +411,7 @@
 (defun var-dec-list (state)
     (var-dec state)
     (if(eq (token state) 'ID)
-        (var-dec-list)
+        (var-dec-list state)
     )
 )
 
@@ -436,6 +436,7 @@
         ((eq 'INTEGER (token state)) (match state 'INTEGER))
         ((eq 'REAL    (token state)) (match state 'REAL))
         ((eq 'BOOLEAN (token state)) (match state 'BOOLEAN))
+	(t (synerr2 state))
     )
 )
 ;;=====================================================================
@@ -520,13 +521,12 @@
 ; THE PARSER - test all files
 ;;=====================================================================
 
-;; (parse-all)
+;;(parse-all)
 
 ;;=====================================================================
 ; THE PARSER - test a single file
 ;;=====================================================================
-
-(parse "testfiles/testok1.pas")
+(parse "testfiles/testok3.pas")
 
 ;;=====================================================================
 ; THE PARSER - end of code
