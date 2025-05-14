@@ -297,40 +297,36 @@
 (defun stat-list-aux (state)
     (match state 'SCOLON)
     (stat state)
-    (if(eq (token state) 'SCOLON)
-        (stat-list-aux)
-        t
+    (when (eq (token state) 'SCOLON)
+        (stat-list-aux state)
         )
 )
 
 (defun id-list-aux (state)
-    (match state 'COMMA)
-        (if(eq (token state) 'ID)
-            (symtab-add state (pstate-nextchar state))
-            t
-        )  
-    (match state 'ID)   
-
-    (if(eq (token state) 'COMMA)
-        (id-list-aux)
-        t
-    )   
+  (match state 'COMMA)
+  (if(eq (token state) 'ID)
+    (symtab-add state (lexeme state))
+  )  
+  (match state 'ID)   
+  (when (eq (token state) 'COMMA)
+    (id-list-aux state)
+  )   
 )
 
 (defun expr-aux (state)
     (match state 'ADDI)
-    (if(eq (token state) 'ADDI)
+    (term state)
+    (when (eq (token state) 'ADDI)
         (expr-aux state)
-        t
     )
 )
 
 (defun term-aux(state)
-    (match state 'MULT)
-    (if(eq (token state) 'MULT)
-        (term-aux state)
-        t
-        )
+  (match state 'MULT)
+  (factor state)
+  (when (eq (token state) 'MULT)
+    (term-aux state)
+  )
 )
 
 ;;=====================================================================
@@ -353,28 +349,29 @@
     (assign-stat state)
     )
 
-(defun assign-stat (state) ;;DONE
-  (not (if match state 'ID
-    (semerr2 state)
-    )
-  )
-    (match state 'ID)
-    (match state 'ASSIGN)
-    (expr state)
+(defun assign-stat (state)
+  (if (eq (token state) 'ID)
+      (progn
+        (unless (symtab-member state (lexeme state))
+          (semerr2 state)) 
+        (match state 'ID)) 
+      (synerr3 state)) 
+  (match state 'ASSIGN)
+  (expr state)
 )
 
 (defun expr (state)
-    (term state)
-    (if(eq (token state) 'ADDI)
-        (expr-aux state)
-    )
+  (term state)
+  (when (eq (token state) 'ADDI)
+    (expr-aux state)
+  )
 )
 
 (defun term (state)
-    (factor state)
-    (if(eq (token state) 'MULT)
-        (term-aux state)
-    )
+  (factor state)
+  (when (eq (token state) 'MULT)
+    (term-aux state)
+  )
 )
 
 (defun factor (state)
@@ -387,19 +384,17 @@
         (operand state)
     )
 )
-
 (defun operand (state)
-    (cond
-     ((eq 'ID (token state))  
-        (if(symtab-member state (pstate-nextchar state))
-            (semerr2 state)
-            )
-     )
-     ((eq 'NUM (token state))  (match state 'NUM))     
-     (t (synerr3 state))
-    )
-    )
+  (cond
+    ((eq (token state) 'ID)
+     (unless (symtab-member state (lexeme state))
+       (semerr2 state))
+     (match state 'ID))
 
+    ((eq (token state) 'NUM)
+     (match state 'NUM))
+    (t
+     (synerr3 state))))
 ;;=====================================================================
 ; <var-part>     --> var <var-dec-list>
 ; <var-dec-list> --> <var-dec> | <var-dec><var-dec-list>
@@ -428,8 +423,12 @@
     )
 
 (defun id-list (state)
-    (match state 'ID)
-
+  (if (eq (token state) 'ID)
+    (symtab-add state (lexeme state)))
+  (match state 'ID)
+  (when (eq (token state) 'COMMA)
+	  (id-list-aux state)
+  )
 )
 
 (defun type (state) ;;DONE
@@ -521,13 +520,13 @@
 ; THE PARSER - test all files
 ;;=====================================================================
 
- (parse-all)
+;; (parse-all)
 
 ;;=====================================================================
 ; THE PARSER - test a single file
 ;;=====================================================================
 
-;;(parse "testfiles/testok1.pas")
+(parse "testfiles/testok1.pas")
 
 ;;=====================================================================
 ; THE PARSER - end of code
