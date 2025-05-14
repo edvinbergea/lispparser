@@ -1,0 +1,31 @@
+
+------------------------------------------------------
+--- Parsing program: "testfiles/testok1.pas" 
+------------------------------------------------------
+Symbol: "program" 
+Symbol: "testok1" 
+Symbol: "(" 
+Symbol: "input" 
+Symbol: "," 
+Symbol: "output" 
+Symbol: ")" 
+Symbol: ";" 
+Symbol: "var" 
+Symbol: "A" 
+Symbol: "," 
+*** Syntax error:   Expected COLON    found ","      
+*** Syntax error:   Expected SCOLON   found ","      
+*** Syntax error:   Expected BEGIN    found ","      
+*** Syntax error:   Expected ID       found ","      
+*** Semantic error: "," not declared.
+*** Syntax error:   Expected ID       found ","      
+*** Syntax error:   Expected ASSIGN   found ","      
+*** Syntax error:   Expected OPERAND  found "," 
+*** Syntax error:   Expected END      found ","      
+*** Syntax error:   Expected PUNKT    found ","      
+*** Semantic error: found ","      expected EOF.
+------------------------------------------------------
+Symbol Table is: NIL 
+------------------------------------------------------
+Parse Fail. 
+------------------------------------------------------
